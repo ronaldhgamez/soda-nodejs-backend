@@ -11,7 +11,7 @@ const restaurant = require('../controllers/restaurant');
 
 router.get('/api/getCustomers', customers.getCustomers);
 router.post('/api/addCustomer', customers.addCustomer);
-router.delete('/api/deleteCustomer/:id', customers.deleteCustomer);
+router.delete('/api/deleteCustomer', customers.deleteCustomer);
 
 ////////////////////////////////////////////////////////////////////////
 ///////////////////////// Restaurant's routes //////////////////////////

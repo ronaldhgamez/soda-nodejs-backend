@@ -1,14 +1,16 @@
 /* Variable's connection to Firebase */
 const db = require('../firebase/firebase_config');
 
-/* Returns all collection of customer in database */
-const getCustomers = () => {
-    db.ref('productos').once('value', (snapshot) => {
+
+/* Returns all collection of customer on database */
+const getCustomers = (req, res) => {
+    db.ref('customers').once('value', (snapshot) => {
         const customers = snapshot.val();
         res.send(customers);
     });
 };
 
+/* Add a new customer to customer collection */
 const addCustomer = (req, res) => {
     console.log(req.body);
     const customer = {
@@ -17,18 +19,17 @@ const addCustomer = (req, res) => {
         "exact_direction": req.body.exact_direction,
         "idDistrict": req.body.idDistrict,
         "user": req.body.user,
-        "pass": req.body.password
+        "pass": req.body.pass
     };
     /* push a new register into customer collection on Firebase */
-    db.ref('customer').push(customer);
+    db.ref('customers').push(customer);
     res.send('customer inserted');
 };
-
 
 const deleteCustomer = (req, res) => {
     console.log(req.body);
     /* deletes a customer from the collection on Firebase */
-    db.ref('customer/' + req.params.idCustomer).remove();
+    db.ref('customers/' + req.body.idCustomer).remove();
     res.send('customer deleted');
 };
 
