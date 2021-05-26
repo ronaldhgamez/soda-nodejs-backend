@@ -1,40 +1,27 @@
 /* Variable's connection to Firebase */
 const db = require('../firebase/firebase_config');
 
-
-/* Returns all collection of customer on database */
-const getCustomers = (req, res) => {
-    db.ref('customers').once('value', (snapshot) => {
-        const customers = snapshot.val();
-        res.send(customers);
-    });
-};
-
 /* Add a new customer to customer collection */
-const addCustomer = (req, res) => {
-    console.log(req.body);
-    const customer = {
-        "name": req.body.name,
-        "lastname": req.body.lastname,
-        "exact_direction": req.body.exact_direction,
-        "idDistrict": req.body.idDistrict,
-        "user": req.body.user,
-        "pass": req.body.pass
-    };
-    /* push a new register into customer collection on Firebase */
-    db.ref('customers').push(customer);
-    res.send('customer inserted');
+const addCustomer = async (req, res) => {
+    try {
+        const users = db.collection('customers');
+        const snapshot = await users.where('user', '==', req.body.user).get();
+
+        /* validates if the username already exists */
+        if (snapshot.empty) {
+            /* Add the new user. The  id of document is the same as the username */
+            await users.doc(req.body.user).set(req.body);
+            return res.status(200).send({ "inserted": true });
+        }
+        else { // matching id of document
+            return res.status(200).send({ "inserted": false });
+        }
+    } catch (error) {
+        return res.status(500).send(error); /* 500: internal error */
+    }
 };
 
-const deleteCustomer = (req, res) => {
-    console.log(req.body);
-    /* deletes a customer from the collection on Firebase */
-    db.ref('customers/' + req.body.idCustomer).remove();
-    res.send('customer deleted');
-};
 
 module.exports = {
-    getCustomers,
-    addCustomer,
-    deleteCustomer
+    addCustomer
 }

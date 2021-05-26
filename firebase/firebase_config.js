@@ -6,6 +6,6 @@ admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://sodas-db-nodejs-default-rtdb.firebaseio.com"
 });
-const db = admin.database();
+const db = admin.firestore();
 
 module.exports = db;
