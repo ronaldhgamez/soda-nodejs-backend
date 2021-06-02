@@ -21,7 +21,22 @@ const addCustomer = async (req, res) => {
     }
 };
 
+async function getSodas(req, res) {
+    try {
+        const sodas = db.collection('cafes');
+        const data = await sodas.get();
+        var allCafes = []
+        data.forEach(doc => {
+            allCafes.push(doc.data())
+        })
+        res.status(200).send({ 'sodas': allCafes })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send(error)
+    }
+}
 
 module.exports = {
-    addCustomer
+    addCustomer,
+    getSodas
 }
