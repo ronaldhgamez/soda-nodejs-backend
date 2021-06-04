@@ -3,6 +3,7 @@ const router = Router();
 
 const customers = require('../controllers/customers');
 const restaurant = require('../controllers/restaurant');
+const sodas = require('../controllers/sodas');
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -12,8 +13,11 @@ const restaurant = require('../controllers/restaurant');
 router.post('/api/addCustomer', customers.addCustomer);
 router.get('/api/getSodas',customers.getSodas);
 ////////////////////////////////////////////////////////////////////////
-///////////////////////// Restaurant's routes //////////////////////////
+///////////////////////// Sodas's routes //////////////////////////
 ////////////////////////////////////////////////////////////////////////
+
+router.post('/api/modifySoda',sodas.modifySoda);
+
 
 //router.get('/api/', restaurant.);
 //router.post('/api/',restaurant.);
