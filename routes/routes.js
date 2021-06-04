@@ -3,7 +3,7 @@ const router = Router();
 
 const customers = require('../controllers/customers');
 const restaurant = require('../controllers/restaurant');
-const sodas = require('../controllers/sodas');
+const sodas = require('../controllers/soda');
 const createMenu = require('../controllers/createMenu');
 
 
@@ -12,16 +12,12 @@ const createMenu = require('../controllers/createMenu');
 ////////////////////////////////////////////////////////////////////////
 
 router.post('/api/addCustomer', customers.addCustomer);
-router.get('/api/getSodas',customers.getSodas);
+router.get('/api/getSodas', customers.getSodas);
 ////////////////////////////////////////////////////////////////////////
 ///////////////////////// Sodas's routes //////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
-router.post('/api/modifySoda',sodas.modifySoda);
-
-
-//router.get('/api/', restaurant.);
-//router.post('/api/',restaurant.);
+router.post('/api/modifySoda', sodas.modifySodas);
 
 ////////////////////////////////////////////////////////////////////////
 ///////////////////////// CreateMenu's routes //////////////////////////
