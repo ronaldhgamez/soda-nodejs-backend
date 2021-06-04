@@ -3,11 +3,8 @@ const router = Router();
 
 const customers = require('../controllers/customers');
 const restaurant = require('../controllers/restaurant');
-<<<<<<< HEAD
 const sodas = require('../controllers/sodas');
-=======
 const createMenu = require('../controllers/createMenu');
->>>>>>> 6724b6b3032c528be92d296878fe738e5a85ab08
 
 
 ////////////////////////////////////////////////////////////////////////
