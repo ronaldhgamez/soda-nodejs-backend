@@ -38,7 +38,7 @@ router.post('/api/addMenu', createMenu.addMenu);
 
 // Default route.
 router.get('/', (req, res) => {
-    res.send({ "text": 'Server is running!' });
+    res.send({ "state": 'Server is running!' });
 });
 
 // Export routes.
