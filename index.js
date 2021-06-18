@@ -2,7 +2,6 @@ const express = require('express');
 const morgan = require('morgan');
 
 const app = express();
-app.set('port', 4000);
 
 // middlewares
 app.use(express.json());
@@ -12,7 +11,9 @@ app.use(morgan('dev'));
 // routes
 app.use(require('./routes/routes'));
 
+const port = process.env.PORT || 4000;
+
 // Server starts
-app.listen(app.get('port'), () => {
-    console.log("Server running on port: " + app.get('port'));
+app.listen(port, () => {
+    console.log("Server running on port: " + port);
 });
