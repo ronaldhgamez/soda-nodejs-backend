@@ -34,6 +34,7 @@ router.post('/api/addMenu', createMenu.addMenu);
 //////////////////////////// Orders routes /////////////////////////////
 router.post('/api/orderFood', orders.orderFood);
 router.post('/api/getCafesOrders', orders.getCafesOrders);
+router.post('/api/updateOrderState', orders.updateOrderState);
 
 // Export routes.
 module.exports = router;
