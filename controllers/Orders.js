@@ -38,7 +38,7 @@ async function getCafesOrders(req, res) {
 
 async function updateOrderState(req, res) {
     try {
-        await db.collection('orders').doc(req.body.id).update({ pass: req.body.state });
+        await db.collection('orders').doc(req.body.id).update({ "state": req.body.state });
         return res.status(200).send({ "updated": true });
     } catch (error) {
         console.log(error);
