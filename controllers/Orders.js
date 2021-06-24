@@ -7,7 +7,7 @@ const orderFood = async (req, res) => {
             "cafe": req.body.cafe,
             "client": req.body.client, /* who makes the order */
             "state": req.body.state, /* pending, delivered or preparing */
-            "date": req.body.date,
+            "datetime": req.body.datetime,
             "total": req.body.total // total to pay
         };
 
