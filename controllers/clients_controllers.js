@@ -1,45 +1,11 @@
 /* Variable's connection to Firebase */
 const db = require('../firebase/firebase_config');
 
-/* Add a new customer to customer collection */
-const addCustomer = async (req, res) => {
-    try {
-        const users = db.collection('customers');
-        const snapshot = await users.where('user', '==', req.body.user).get();
-
-        /* validates if the username already exists */
-        if (snapshot.empty) {
-            /* Add the new user. The  id of document is the same as the username */
-            await users.doc(req.body.user).set(req.body);
-            return res.status(200).send({ "inserted": true });
-        }
-        else { // matching id of document
-            return res.status(200).send({ "inserted": false });
-        }
-    } catch (error) {
-        return res.status(500).send(error); /* 500: internal error */
-    }
-};
-
-async function getSodas(req, res) {
-    try {
-        const sodas = db.collection('cafes');
-        const data = await sodas.get();
-        var allCafes = []
-        data.forEach(doc => {
-            allCafes.push(doc.data())
-        })
-        res.status(200).send({ 'sodas': allCafes })
-    } catch (error) {
-        return res.status(500).send(error)
-    }
-}
-
 async function getClientData(req, res) {
     console.log("getblientdata")
     console.log(req.body.idUser)
     try {
-        const clientsRef = db.collection('client');
+        const clientsRef = db.collection('clients');
         const snapshot = await clientsRef.where('idCliente', '==', parseInt(req.body.idUser)).get();
 
         /* validates if the username already exists */
@@ -81,7 +47,7 @@ async function getClientPhone(req, res) {
 }
 async function updateUserInfo(req, res) {
     try {
-        const clientsRef = db.collection('client');
+        const clientsRef = db.collection('clients');
         const snapshot = await clientsRef.where('idCliente', '==', parseInt(req.body.userId)).get();
         let idDoc = null
         snapshot.forEach(a => {
@@ -100,7 +66,7 @@ async function updateUserInfo(req, res) {
         console.log(idDoc)
         console.log(req.body)
         if (idDoc) {
-            await db.collection('client').doc(idDoc).update(object)
+            await db.collection('clients').doc(idDoc).update(object)
         } else {
             return res.status(500).send({ msg: false })
         }
@@ -128,8 +94,6 @@ async function updateUserInfo(req, res) {
     }
 }
 module.exports = {
-    addCustomer,
-    getSodas,
     getClientData,
     getClientPhone,
     updateUserInfo
