@@ -10,8 +10,9 @@ const orders = require('../controllers/Orders')
 
 ////////////////////////////////////////////////////////////////////////
 ///////////////////// Login and Register's routes //////////////////////
-router.post('/api/login',loginRegister.login)
-router.post('/api/registerUser',loginRegister.registerUser)
+router.post('/api/login',loginRegister.login);
+router.post('/api/registerUser',loginRegister.registerUser);
+router.post('/api/registerSoda',loginRegister.registerSoda);
 
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////// Customer's routes ///////////////////////////
@@ -35,6 +36,11 @@ router.post('/api/addMenu', createMenu.addMenu);
 router.post('/api/orderFood', orders.orderFood);
 router.post('/api/getCafesOrders', orders.getCafesOrders);
 router.post('/api/updateOrderState', orders.updateOrderState);
+
+//Default route
+router.get('/', (req, res) => {
+    res.status(200).send('server running successfully!');
+});
 
 // Export routes.
 module.exports = router;

@@ -10,8 +10,8 @@ app.use(morgan('dev'));
 
 // routes
 app.use(require('./routes/routes'));
-
 const port = process.env.PORT || 4000;
+//app.set('port',port);
 
 // Server starts
 app.listen(port, () => {

@@ -50,7 +50,12 @@ async function registerUser(req, res) {
     }
 }
 
+async function registerSoda(req,res){
+
+}
+
 module.exports = {
     login,
-    registerUser
+    registerUser,
+    registerSoda
 }
