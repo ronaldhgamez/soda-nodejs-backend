@@ -39,7 +39,7 @@ const getCafeData = async (req, res) => {
     } catch (error) {
         return res.status(500).send({ "error": error }); /* 500: internal error */
     }
-    
+
 }
 
 async function getSodas(req, res) {
@@ -91,11 +91,34 @@ const addProductToMenu = async (req, res) => {
     }
 };
 
+
+const getCafeMenus = async (req, res) => {
+    try {
+        const menus = db.collection('menus');
+        const snapshot = await menus.where('cafe_username', '==', req.body.cafe_username).get();
+
+        var response = [];
+        snapshot.forEach(m => {
+            var data = m.data();
+            data.id = m.id;
+            response.push(data);
+        });
+        return res.status(200).send(response);
+    } catch (error) {
+        return res.status(500).send([]);
+    }
+}
+
+const mi = async cafe_username => {
+
+}
+
 module.exports = {
     addCafe,
     updateCafe,
     getCafeData,
     getSodas,
     addMenu,
-    addProductToMenu
+    addProductToMenu,
+    getCafeMenus
 }

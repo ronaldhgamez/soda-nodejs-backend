@@ -28,6 +28,7 @@ router.post('/api/getCafeData', cafes_controlers.getCafeData);
 router.get('/api/getSodas', cafes_controlers.getSodas);
 router.post('/api/addProduct', cafes_controlers.addProductToMenu);
 router.post('/api/addMenu', cafes_controlers.addMenu);
+router.post('/api/getCafeMenus', cafes_controlers.getCafeMenus);
 
 ////////////////////////////////////////////////////////////////////////
 //////////////////////////// Orders routes /////////////////////////////
