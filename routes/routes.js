@@ -41,5 +41,10 @@ router.get('/', (req, res) => {
     res.send({ "text": 'Server is running!' });
 });
 
+//Default route
+router.get('/', (req, res) => {
+    res.status(200).send('server running successfully!');
+});
+
 // Export routes.
 module.exports = router;
