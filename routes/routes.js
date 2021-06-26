@@ -24,6 +24,7 @@ router.post('/api/updateUserInfo', clients_controllers.updateUserInfo);
 ///////////////////////// Cafes's routes ///////////////////////////////
 router.post('/api/addCafe', cafes_controlers.addCafe);
 router.put('/api/updateCafe', cafes_controlers.updateCafe);
+router.post('/api/getCafeData', cafes_controlers.getCafeData);
 router.get('/api/getSodas', cafes_controlers.getSodas);
 router.post('/api/addProduct', cafes_controlers.addProductToMenu);
 router.post('/api/addMenu', cafes_controlers.addMenu);
