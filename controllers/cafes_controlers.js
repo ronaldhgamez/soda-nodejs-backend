@@ -94,13 +94,13 @@ const addProductToMenu = async (req, res) => {
 
 const getCafeMenus = async (req, res) => {
     try {
-        const menus = db.collection('menus');
-        const snapshot = await menus.where('cafe_username', '==', req.body.cafe_username).get();
+        const { cafe_username } = req.body;
+        const snapshot = await db.collection('menus').where('cafe_username', '==', cafe_username).get();
 
         var response = [];
-        snapshot.forEach(m => {
+        snapshot.forEach(async m => {
             var data = m.data();
-            data.id = m.id;
+            data.id_menu = m.id;
             response.push(data);
         });
         return res.status(200).send(response);
@@ -109,8 +109,21 @@ const getCafeMenus = async (req, res) => {
     }
 }
 
-const mi = async cafe_username => {
+const getProductsMenu = async (req, res) => {
+    try {
+        const products = db.collection('products');
+        const snapshot = await products.where('id_menu', '==', req.body.id_menu).get();
 
+        var response = [];
+        snapshot.forEach(p => {
+            var data = p.data();
+            data.id_product = p.id;
+            response.push(data);
+        });
+        return res.status(200).send(response);
+    } catch (error) {
+        return res.status(500).send([]);
+    }
 }
 
 module.exports = {
@@ -120,5 +133,6 @@ module.exports = {
     getSodas,
     addMenu,
     addProductToMenu,
-    getCafeMenus
+    getCafeMenus,
+    getProductsMenu
 }
