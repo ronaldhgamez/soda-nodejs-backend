@@ -31,6 +31,17 @@ const updateCafe = async (req, res) => {
     }
 }
 
+const getCafeData = async (req, res) => {
+    try {
+        const reg = await db.collection('cafes').doc(req.body.cafe_username).get();
+        const response = reg.data();
+        return (response != undefined) ? res.status(200).send(response) : res.status(200).send({});
+    } catch (error) {
+        return res.status(500).send({ "error": error }); /* 500: internal error */
+    }
+    
+}
+
 async function getSodas(req, res) {
     try {
         const data = await db.collection('cafes').get();
@@ -83,6 +94,7 @@ const addProductToMenu = async (req, res) => {
 module.exports = {
     addCafe,
     updateCafe,
+    getCafeData,
     getSodas,
     addMenu,
     addProductToMenu
