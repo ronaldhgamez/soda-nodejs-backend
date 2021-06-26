@@ -7,10 +7,10 @@ async function login(req, res) {
         const data = await users.get();
         let flag = false
         data.forEach(doc => {
-            console.log(doc.data().usuario)
-            if (doc.data().usuario == req.body.userName && doc.data().contrasena == req.body.password) {
+            console.log(doc.data().user)
+            if (doc.data().user == req.body.userName && doc.data().pass == req.body.password) {
                 flag = true
-                res.status(200).send({ msg: doc.data().idCliente })
+                res.status(200).send({ msg: true})
             }
         })
         if (!flag)

@@ -3,10 +3,10 @@ const db = require('../firebase/firebase_config');
 
 async function getClientData(req, res) {
     console.log("getblientdata")
-    console.log(req.body.idUser)
+    console.log(req.body.userName)
     try {
         const clientsRef = db.collection('clients');
-        const snapshot = await clientsRef.where('idCliente', '==', parseInt(req.body.idUser)).get();
+        const snapshot = await clientsRef.where('user', '==', req.body.userName).get();
 
         /* validates if the username already exists */
         if (snapshot.empty) {
@@ -15,7 +15,7 @@ async function getClientData(req, res) {
         else {
             snapshot.forEach(doc => {
                 console.log(doc.data())
-                return res.status(200).send({ msg: doc.data() })
+                return res.status(200).send({ msg: doc.data()})
             })
         }
     } catch (error) {
@@ -27,41 +27,38 @@ async function getClientData(req, res) {
 async function getClientPhone(req, res) {
     try {
         const clientsRef = db.collection('clientPhoneNumber');
-        const snapshot = await clientsRef.where('idCliente', '==', parseInt(req.body.idUser)).get();
+        const snapshot = await clientsRef.where('userName', '==', req.body.userName).get();
 
         /* validates if the username already exists */
         if (snapshot.empty) {
-            console.log("no ha encontrado el telefono")
             return res.status(404).send({ msg: false })
         }
         else {
-            console.log("Se encontró el telefono")
             snapshot.forEach(doc => {
                 return res.status(200).send({ msg: doc.data() })
             })
         }
     } catch (error) {
-        console.log(error)
         return res.status(500).send(error)
     }
 }
 async function updateUserInfo(req, res) {
     try {
+        //console.log(req.body)
         const clientsRef = db.collection('clients');
-        const snapshot = await clientsRef.where('idCliente', '==', parseInt(req.body.userId)).get();
+        const snapshot = await clientsRef.where('user', '==', req.body.user).get();
         let idDoc = null
         snapshot.forEach(a => {
             idDoc = a.id
         })
         const object = {
-            "nombre": req.body.nombre,
-            "apellidos": req.body.apellidos,
-            "contrasena": req.body.contrasena,
-            "direccionExacta": req.body.direccionExacta,
-            "idCliente": req.body.userId,
-            "idDistrito": req.body.idDistrito,
-            "imagenPerfil": req.body.imagenPerfil,
-            "usuario": req.body.usuario
+            "name": req.body.name,
+            "lastname": req.body.lastname,
+            "pass": req.body.pass,
+            "exact_direction": req.body.exact_direction,
+            "district": req.body.district,
+            "img_ulr": req.body.img_ulr,
+            "user": req.body.user
         }
         console.log(idDoc)
         console.log(req.body)
@@ -73,14 +70,14 @@ async function updateUserInfo(req, res) {
 
         //actualizar telefono
         const PhoneRef = db.collection('clientPhoneNumber');
-        const snapshotPhone = await PhoneRef.where('idCliente', '==', parseInt(req.body.userId)).get();
+        const snapshotPhone = await PhoneRef.where('userName', '==', req.body.user).get();
         let idDocPhone = null
         snapshotPhone.forEach(b => {
             idDocPhone = b.id
         })
         const objectPhone = {
-            "idCliente": req.body.userId,
-            "telefono": req.body.telefono
+            "userName": req.body.user,
+            "phoneNumber": req.body.phoneNumber
         }
         if (PhoneRef) {
             await db.collection('clientPhoneNumber').doc(idDocPhone).update(objectPhone)
