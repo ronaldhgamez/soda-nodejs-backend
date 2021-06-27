@@ -39,7 +39,7 @@ const getCafeData = async (req, res) => {
     } catch (error) {
         return res.status(500).send({ "error": error }); /* 500: internal error */
     }
-    
+
 }
 
 async function getSodas(req, res) {
@@ -91,11 +91,60 @@ const addProductToMenu = async (req, res) => {
     }
 };
 
+
+const getCafeMenus = async (req, res) => {
+    try {
+        const { cafe_username } = req.body;
+        const snapshot = await db.collection('menus').where('cafe_username', '==', cafe_username).get();
+
+        var response = [];
+        snapshot.forEach(async m => {
+            var data = m.data();
+            data.id_menu = m.id;
+            response.push(data);
+        });
+        return res.status(200).send(response);
+    } catch (error) {
+        return res.status(500).send([]);
+    }
+}
+
+const getProductsMenu = async (req, res) => {
+    try {
+        const products = db.collection('products');
+        const snapshot = await products.where('id_menu', '==', req.body.id_menu).get();
+
+        var response = [];
+        snapshot.forEach(p => {
+            var data = p.data();
+            data.id_product = p.id;
+            response.push(data);
+        });
+        return res.status(200).send(response);
+    } catch (error) {
+        return res.status(500).send([]);
+    }
+}
+
+/* to update menu description */
+const updateMenu = async (req, res) => {
+    try {
+        const data = { "description": req.body.description };
+        await db.collection('menus').doc(req.body.id_menu).update(data);
+        return res.status(200).send({ "updated": true });
+    } catch (error) {
+        return res.status(500).send({ "updated": false, "error": error }); /* 500: internal error */
+    }
+}
+
 module.exports = {
     addCafe,
     updateCafe,
     getCafeData,
     getSodas,
     addMenu,
-    addProductToMenu
+    addProductToMenu,
+    getCafeMenus,
+    getProductsMenu,
+    updateMenu
 }
