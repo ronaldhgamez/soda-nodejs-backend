@@ -7,10 +7,17 @@ async function login(req, res) {
         const data = await users.get();
         let flag = false
         data.forEach(doc => {
-            console.log(doc.data().user)
             if (doc.data().user == req.body.userName && doc.data().pass == req.body.password) {
                 flag = true
-                res.status(200).send({ msg: true})
+                res.status(200).send({ msg: true ,type:'user'})
+            }
+        })
+        const cafes= db.collection('cafes');
+        const datos= await cafes.get();
+        datos.forEach(dat=>{
+            if(dat.data().cafe_username==req.body.userName && dat.data().pass == req.body.password){
+                flag=true
+                res.status(200).send({msg:true, type:'cafe'})
             }
         })
         if (!flag)
@@ -33,7 +40,7 @@ const validateClientCredentials = async (req, res) => {
                 return res.status(200).send({ "valid": isValid });
             else
                 return res.status(200).send({ "valid": isValid, "msg": "La contraseña es incorrecta" });
-            
+
         }
     } catch (error) {
         return res.status(200).send({ "valid": false, "msg": "El nombre de usuario no existe" });
@@ -62,35 +69,40 @@ const validateCafeCredentials = async (req, res) => {
 
 async function registerUser(req, res) {
     try {
+        const cafes=db.collection('cafes');
         const users = db.collection('clients');
-        const data = await users.get();
-        let flag = false
-        data.forEach(doc => {
-            if (doc.data().usuario == req.body.usuario || doc.data().idCliente == req.body.idCliente) {
-                flag = true
-                res.status(404).send({ msg: false })
-            }
-        })
-        if (!flag) {
-            datos = {
-                nombre: req.body.nombre,
-                apellidos: req.body.apellidos,
-                contrasena: req.body.contrasena,
-                direccionExacta: req.body.direccionExacta,
-                idCliente: req.body.idCliente,
-                imagenPerfil: "https://cdn.pixabay.com/photo/2012/06/19/10/32/owl-50267_960_720.jpg",
-                idDistrito: req.body.idDistrito,
-                usuario: req.body.usuario
-            }
-            const response = await db.collection('clients').doc().set(datos)
-            const responsePhone = await db.collection('clientPhoneNumber').doc().set({ idCliente: req.body.idCliente, telefono: req.body.telefono })
-            res.status(200).send({ msg: true })
+        const snapshotuser=await users.where('user', '==', req.body.user).get();
+        const snapshotcafe = await cafes.where('cafe_username', '==', req.body.user).get();
+
+        if (snapshotuser.empty && snapshotcafe.empty) {
+            await users.doc(req.body.user).set(req.body);
+            res.status(200).send({ msg: true,info:"Registrado correctamente" });
+        } else {
+            res.status(200).send({msg: false, info: "El nombre de usuario ya existe"});
         }
     } catch (error) {
-        res.status(500).send(error)
+        res.status(500).send({msg:false,info:"Error interno"})
     }
 }
 
+async function registerSoda(req,res){
+    try {
+        const cafes=db.collection('cafes');
+        const users = db.collection('clients');
+        const snapshotuser=await users.where('user', '==', req.body.cafe_username).get();
+        const snapshotcafe = await cafes.where('cafe_username', '==', req.body.cafe_username).get();
+        console.log(snapshotcafe.empty)
+        console.log(snapshotuser.empty)
+        if (snapshotuser.empty && snapshotcafe.empty) {
+            await cafes.doc(req.body.cafe_username).set(req.body);
+            res.status(200).send({msg: true,info:"Registrado correctamente" });
+        } else {
+            res.status(200).send({msg: false, info:"El nombre de usuario ya existe"});
+        }
+    } catch (error) {
+        res.status(500).send({msg:false,info:"Error interno"})
+    }
+}
 /* Add a new customer to customer collection */
 const addClient = async (req, res) => {
     try {
@@ -116,5 +128,6 @@ module.exports = {
     validateClientCredentials,
     validateCafeCredentials,
     registerUser,
-    addClient
+    addClient,
+    registerSoda
 }

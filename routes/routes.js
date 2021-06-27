@@ -12,13 +12,13 @@ router.post('/api/login', login_register_controllers.login)
 router.post('/api/validateCafeCredentials', login_register_controllers.validateCafeCredentials);
 router.post('/api/validateClientCredentials', login_register_controllers.validateClientCredentials);
 router.post('/api/registerUser', login_register_controllers.registerUser)
+router.post('/api/registerSoda',login_register_controllers.registerSoda)
 router.post('/api/addClient', login_register_controllers.addClient);
 
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////// Customer's routes ///////////////////////////
 router.post('/api/getClientData', clients_controllers.getClientData);
-router.post('/api/getClientPhone', clients_controllers.getClientPhone);
-router.post('/api/updateUserInfo', clients_controllers.updateUserInfo);
+router.post('/api/updateUser', clients_controllers.updateUser);
 
 ////////////////////////////////////////////////////////////////////////
 ///////////////////////// Cafes's routes ///////////////////////////////
@@ -38,11 +38,6 @@ router.delete('/api/deleteCafe',  cafes_controlers.deleteCafe);
 router.post('/api/orderFood', orders_controllers.orderFood);
 router.post('/api/getCafesOrders', orders_controllers.getCafesOrders);
 router.post('/api/updateOrderState', orders_controllers.updateOrderState);
-
-// Default route.
-router.get('/', (req, res) => {
-    res.send({ "text": 'Server is running!' });
-});
 
 //Default route
 router.get('/', (req, res) => {
