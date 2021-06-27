@@ -31,6 +31,16 @@ const updateCafe = async (req, res) => {
     }
 }
 
+/* to delete a cafe by its username */
+const deleteCafe = async (req, res) => {
+    try {
+        await db.collection('cafes').doc(req.body.cafe_username).delete();
+        return res.status(200).send({ "deleted": true });
+    } catch (error) {
+        return res.status(500).send({ "deleted": false, "error": error }); /* 500: internal error */
+    }
+}
+
 const getCafeData = async (req, res) => {
     try {
         const reg = await db.collection('cafes').doc(req.body.cafe_username).get();
@@ -137,6 +147,7 @@ const updateMenu = async (req, res) => {
     }
 }
 
+
 module.exports = {
     addCafe,
     updateCafe,
@@ -146,5 +157,6 @@ module.exports = {
     addProductToMenu,
     getCafeMenus,
     getProductsMenu,
-    updateMenu
+    updateMenu,
+    deleteCafe
 }
