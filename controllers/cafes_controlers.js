@@ -126,6 +126,17 @@ const getProductsMenu = async (req, res) => {
     }
 }
 
+/* to update menu description */
+const updateMenu = async (req, res) => {
+    try {
+        const data = { "description": req.body.description };
+        await db.collection('menus').doc(req.body.id_menu).update(data);
+        return res.status(200).send({ "updated": true });
+    } catch (error) {
+        return res.status(500).send({ "updated": false, "error": error }); /* 500: internal error */
+    }
+}
+
 module.exports = {
     addCafe,
     updateCafe,
@@ -134,5 +145,6 @@ module.exports = {
     addMenu,
     addProductToMenu,
     getCafeMenus,
-    getProductsMenu
+    getProductsMenu,
+    updateMenu
 }

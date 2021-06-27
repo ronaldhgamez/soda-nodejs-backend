@@ -30,6 +30,7 @@ router.post('/api/addProduct', cafes_controlers.addProductToMenu);
 router.post('/api/addMenu', cafes_controlers.addMenu);
 router.post('/api/getCafeMenus', cafes_controlers.getCafeMenus);
 router.post('/api/getProductsMenu', cafes_controlers.getProductsMenu);
+router.put('/api/updateMenu', cafes_controlers.updateMenu);
 
 ////////////////////////////////////////////////////////////////////////
 //////////////////////////// Orders routes /////////////////////////////
