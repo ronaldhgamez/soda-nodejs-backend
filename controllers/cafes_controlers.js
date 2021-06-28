@@ -113,7 +113,21 @@ const getCafeMenus = async (req, res) => {
             data.id_menu = m.id;
             response.push(data);
         });
-        return res.status(200).send(response);
+
+        for await (let obj of response) {
+
+            const id_menu = obj.id_menu;
+            const snapshot2 = await db.collection('products').where('id_menu', '==', id_menu).get();
+            var response2 = [];
+            
+            snapshot2.forEach(p => {
+                var data = p.data();
+                data.id_product = p.id;
+                response2.push(data);
+            });
+            obj.product_list = response2;
+        }
+        return res.status(200).send(    response);
     } catch (error) {
         return res.status(500).send([]);
     }
