@@ -38,6 +38,9 @@ router.delete('/api/deleteCafe',  cafes_controlers.deleteCafe);
 router.post('/api/orderFood', orders_controllers.orderFood);
 router.post('/api/getCafesOrders', orders_controllers.getCafesOrders);
 router.post('/api/updateOrderState', orders_controllers.updateOrderState);
+router.post('/api/getUserOrders',orders_controllers.getUserOrders);
+router.post('/api/getOrderData',orders_controllers.getOrderData);
+router.post('/api/getProductsOfOrders',orders_controllers.getProductsOfOrders);
 router.post('/api/insertOrderProduct', orders_controllers.insertOrderProduct);
 router.post('/api/getProductsOfOrders', orders_controllers.getProductsOfOrders);
 
