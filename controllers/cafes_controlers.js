@@ -111,6 +111,7 @@ const getCafeMenus = async (req, res) => {
         snapshot.forEach(async m => {
             var data = m.data();
             data.id_menu = m.id;
+            data.display = false;
             response.push(data);
         });
 
