@@ -75,10 +75,28 @@ const insertOrderProduct = async (req, res) => {
 
 const getProductsOfOrders = async (req, res) => {
     try {
+        console.log(req.body.id_order);
         // Gets all documents from order_product collection
-
-        // for every product gets its information
+        const snapshot = await db.collection('order_product').where('id_order', '==', req.body.id_order).get();
         var orders_prod = [];
+
+        snapshot.forEach(doc => {
+            var data = doc.data();
+            data.id_order = doc.id;
+            orders_prod.push(data);
+        });
+
+        for await (let obj of orders_prod) {
+            const id_product = obj.id_product;
+            const p_data = await (await db.collection('products').doc(id_product).get()).data();
+            
+            var info = {
+                "name": p_data.name,
+                "price": p_data.lastname,
+            };
+            obj.product_data = info;
+        }
+        // for every product gets its information
         return res.status(200).send(orders_prod);
     } catch (error) {
         console.log(error)
@@ -90,5 +108,6 @@ module.exports = {
     orderFood,
     getCafesOrders,
     updateOrderState,
-    insertOrderProduct
+    insertOrderProduct,
+    getProductsOfOrders
 }

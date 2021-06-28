@@ -39,6 +39,7 @@ router.post('/api/orderFood', orders_controllers.orderFood);
 router.post('/api/getCafesOrders', orders_controllers.getCafesOrders);
 router.post('/api/updateOrderState', orders_controllers.updateOrderState);
 router.post('/api/insertOrderProduct', orders_controllers.insertOrderProduct);
+router.post('/api/getProductsOfOrders', orders_controllers.getProductsOfOrders);
 
 //Default route
 router.get('/', (req, res) => {
