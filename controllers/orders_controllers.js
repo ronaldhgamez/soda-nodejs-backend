@@ -30,6 +30,19 @@ async function getCafesOrders(req, res) {
             data.id_order = doc.id;
             orders.push(data);
         })
+        
+        for await (let obj of orders) {
+            const user = obj.user;
+            const user_data = await (await db.collection('clients').doc(user).get()).data();
+            console.log(user_data);
+            var info = {
+                "name": user_data.name,
+                "lastname": user_data.lastname,
+                "exact_direction": user_data.exact_direction
+            };
+            obj.user_data = info;
+        }
+         
         return res.status(200).send(orders);
     } catch (error) {
         console.log(error)
@@ -130,5 +143,6 @@ module.exports = {
     getUserOrders,
     getOrderData,
     getProductsOfOrders,
-    getProductData
+    getProductData,
+    insertOrderProduct
 }

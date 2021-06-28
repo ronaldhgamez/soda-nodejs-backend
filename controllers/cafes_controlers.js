@@ -31,6 +31,16 @@ const updateCafe = async (req, res) => {
     }
 }
 
+/* to delete a cafe by its username */
+const deleteCafe = async (req, res) => {
+    try {
+        await db.collection('cafes').doc(req.body.cafe_username).delete();
+        return res.status(200).send({ "deleted": true });
+    } catch (error) {
+        return res.status(500).send({ "deleted": false, "error": error }); /* 500: internal error */
+    }
+}
+
 const getCafeData = async (req, res) => {
     try {
         const reg = await db.collection('cafes').doc(req.body.cafe_username).get();
@@ -101,9 +111,26 @@ const getCafeMenus = async (req, res) => {
         snapshot.forEach(async m => {
             var data = m.data();
             data.id_menu = m.id;
+            data.display = false;
             response.push(data);
         });
-        return res.status(200).send(response);
+
+        for await (let obj of response) {
+
+            const id_menu = obj.id_menu;
+            const snapshot2 = await db.collection('products').where('id_menu', '==', id_menu).get();
+            var response2 = [];
+            
+            snapshot2.forEach(p => {
+                var data = p.data();
+                data.id_product = p.id;
+                data.selected = false;
+                data.amount = 1;
+                response2.push(data);
+            });
+            obj.product_list = response2;
+        }
+        return res.status(200).send(    response);
     } catch (error) {
         return res.status(500).send([]);
     }
@@ -137,6 +164,7 @@ const updateMenu = async (req, res) => {
     }
 }
 
+
 module.exports = {
     addCafe,
     updateCafe,
@@ -146,5 +174,6 @@ module.exports = {
     addProductToMenu,
     getCafeMenus,
     getProductsMenu,
-    updateMenu
+    updateMenu,
+    deleteCafe
 }

@@ -31,6 +31,7 @@ router.post('/api/addMenu', cafes_controlers.addMenu);
 router.post('/api/getCafeMenus', cafes_controlers.getCafeMenus);
 router.post('/api/getProductsMenu', cafes_controlers.getProductsMenu);
 router.put('/api/updateMenu', cafes_controlers.updateMenu);
+router.delete('/api/deleteCafe',  cafes_controlers.deleteCafe);
 
 ////////////////////////////////////////////////////////////////////////
 //////////////////////////// Orders routes /////////////////////////////
@@ -40,6 +41,8 @@ router.post('/api/updateOrderState', orders_controllers.updateOrderState);
 router.post('/api/getUserOrders',orders_controllers.getUserOrders);
 router.post('/api/getOrderData',orders_controllers.getOrderData);
 router.post('/api/getProductsOfOrders',orders_controllers.getProductsOfOrders);
+router.post('/api/insertOrderProduct', orders_controllers.insertOrderProduct);
+
 //Default route
 router.get('/', (req, res) => {
     res.status(200).send('server running successfully!');
