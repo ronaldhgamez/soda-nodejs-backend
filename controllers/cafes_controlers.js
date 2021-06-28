@@ -125,7 +125,7 @@ const getCafeMenus = async (req, res) => {
                 var data = p.data();
                 data.id_product = p.id;
                 data.selected = false;
-                data.amount = 0;
+                data.amount = 1;
                 response2.push(data);
             });
             obj.product_list = response2;
