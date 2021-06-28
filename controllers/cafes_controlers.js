@@ -124,6 +124,8 @@ const getCafeMenus = async (req, res) => {
             snapshot2.forEach(p => {
                 var data = p.data();
                 data.id_product = p.id;
+                data.selected = false;
+                data.amount = 0;
                 response2.push(data);
             });
             obj.product_list = response2;
