@@ -38,6 +38,7 @@ router.delete('/api/deleteCafe',  cafes_controlers.deleteCafe);
 router.post('/api/orderFood', orders_controllers.orderFood);
 router.post('/api/getCafesOrders', orders_controllers.getCafesOrders);
 router.post('/api/updateOrderState', orders_controllers.updateOrderState);
+router.post('/api/insertOrderProduct', orders_controllers.insertOrderProduct);
 
 //Default route
 router.get('/', (req, res) => {

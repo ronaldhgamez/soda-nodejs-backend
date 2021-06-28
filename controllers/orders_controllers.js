@@ -89,5 +89,6 @@ const getProductsOfOrders = async (req, res) => {
 module.exports = {
     orderFood,
     getCafesOrders,
-    updateOrderState
+    updateOrderState,
+    insertOrderProduct
 }
